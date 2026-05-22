@@ -51,7 +51,13 @@ class _TransformersBackend:
         if self._processor is not None:
             return self._processor, self._model
 
-        from transformers import AutoModelForImageTextToText, AutoProcessor
+        from transformers import AutoProcessor
+        try:
+            from transformers import GlmOcrForConditionalGeneration
+            ModelClass = GlmOcrForConditionalGeneration
+        except ImportError:
+            from transformers import AutoModelForImageTextToText
+            ModelClass = AutoModelForImageTextToText
 
         logger.info(f"Loading GLM-OCR model ({_MODEL_ID}) on {self._device} ...")
         self._processor = AutoProcessor.from_pretrained(
@@ -65,7 +71,7 @@ class _TransformersBackend:
         else:
             dtype = "float32"
 
-        self._model = AutoModelForImageTextToText.from_pretrained(
+        self._model = ModelClass.from_pretrained(
             _MODEL_ID,
             trust_remote_code=True,
             torch_dtype=dtype,
