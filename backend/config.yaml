@@ -1,0 +1,10 @@
+pipeline:
+  maas:
+    enabled: false
+  ocr_api:
+    api_host: localhost
+    api_port: 8080
+    api_path: /chat/completions
+    model: mlx-community/GLM-OCR-bf16
+  layout:
+    model_dir: PaddlePaddle/PP-DocLayoutV3_safetensors

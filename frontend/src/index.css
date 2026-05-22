@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #F7F4ED;
+  --color-surface: #FFFFFF;
+  --color-text-display: #1A1814;
+  --color-text-primary: #1A1814;
+  --color-text-secondary: #5C5851;
+  --color-text-disabled: #9E9A92;
+  --color-accent: #2C3E7A;
+  --color-accent-soft: #E4E8F2;
+  --color-success: #5A7A4F;
+  --color-accent-red: #B5453A;
+  --color-border: #E8E2D5;
+
+  --color-dark-background: #14110C;
+  --color-dark-surface: #1B1813;
+  --color-dark-text-display: #F7F4ED;
+  --color-dark-text-primary: #F7F4ED;
+  --color-dark-text-secondary: #A89F8E;
+  --color-dark-text-disabled: #665E51;
+  --color-dark-accent: #7B8FBF;
+  --color-dark-accent-soft: #1F2438;
+  --color-dark-success: #7A9A6F;
+  --color-dark-accent-red: #D5655A;
+  --color-dark-border: #2A251D;
+
+  --font-family-sans: "Inter", "Space Grotesk", sans-serif;
+  --font-family-mono: "JetBrains Mono", "Space Mono", monospace;
+  --font-family-display: "Instrument Serif", serif;
+
+  --spacing-tight: 4px;
+  --spacing-medium: 16px;
+  --spacing-wide: 32px;
+  --spacing-vast: 64px;
+
+  --radius-pill: 999px;
+  --radius-card: 16px;
+}
+
+@layer base {
+  :root {
+    --bg: #F7F4ED;
+    --surface: #FFFFFF;
+    --text-display: #1A1814;
+    --text-primary: #1A1814;
+    --text-secondary: #5C5851;
+    --text-disabled: #9E9A92;
+    --accent: #2C3E7A;
+    --accent-soft: #E4E8F2;
+    --success: #5A7A4F;
+    --accent-red: #B5453A;
+    --border: #E8E2D5;
+  }
+
+  .dark {
+    --bg: #14110C;
+    --surface: #1B1813;
+    --text-display: #F7F4ED;
+    --text-primary: #F7F4ED;
+    --text-secondary: #A89F8E;
+    --text-disabled: #665E51;
+    --accent: #7B8FBF;
+    --accent-soft: #1F2438;
+    --success: #7A9A6F;
+    --accent-red: #D5655A;
+    --border: #2A251D;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-family-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Markdown table styles */
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.875rem;
+  }
+
+  .prose table th,
+  .prose table td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+
+  .prose table th {
+    background-color: var(--surface);
+    font-weight: 600;
+    color: var(--text-display);
+  }
+
+  .prose table tr:nth-child(even) {
+    background-color: rgba(128, 128, 128, 0.05);
+  }
+
+  .prose table tr:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+  }
+
+  .prose pre {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .prose code {
+    font-family: var(--font-family-mono);
+    font-size: 0.875em;
+    background-color: var(--surface);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+  }
+
+  .prose pre code {
+    background: none;
+    padding: 0;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: var(--text-display);
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-family-display);
+  }
+
+  .prose p {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .prose ul,
+  .prose ol {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose blockquote {
+    border-left: 3px solid var(--border);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: var(--text-secondary);
+  }
+}

@@ -1,0 +1,391 @@
+{
+  "info": {
+    "_postman_id": "glm-ocr-api-collection",
+    "name": "GLM-OCR API",
+    "description": "API collection for GLM-OCR document processing service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        },
+        "description": "Check API health status and configuration"
+      },
+      "response": [
+        {
+          "name": "Healthy",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"healthy\",\n  \"version\": \"1.0.0\",\n  \"mlx_vlm_host\": \"localhost\",\n  \"mlx_vlm_port\": 8001\n}"
+        }
+      ]
+    },
+    {
+      "name": "Upload File",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/path/to/your/document.pdf",
+              "description": "File to OCR (image or PDF, max 20MB)"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/ocr/upload",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "ocr", "upload"]
+        },
+        "description": "Upload a file for OCR processing. Returns a job ID to poll for results."
+      },
+      "response": [
+        {
+          "name": "Created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "/path/to/your/document.pdf"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ocr/upload",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "ocr", "upload"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"job_id\": \"cb010492-9e01-4718-b251-5f4fc703d018\",\n  \"status\": \"pending\",\n  \"created_at\": \"2026-04-30T08:42:07.039571+00:00\",\n  \"file_hash\": \"6d9ffe1537487f9dc7cbeb8ac9e1975a09ea149d8d44fb89fe2b0a53210a52b0\",\n  \"result\": null,\n  \"error_msg\": null\n}"
+        }
+      ]
+    },
+    {
+      "name": "Upload from URL",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"url\": \"https://example.com/document.pdf\",\n  \"filename\": \"document.pdf\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/ocr/url",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "ocr", "url"]
+        },
+        "description": "Download a file from URL and queue it for OCR"
+      },
+      "response": [
+        {
+          "name": "Created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/document.pdf\",\n  \"filename\": \"document.pdf\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ocr/url",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "ocr", "url"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"job_id\": \"cb010492-9e01-4718-b251-5f4fc703d018\",\n  \"status\": \"pending\",\n  \"created_at\": \"2026-04-30T08:42:07.039571+00:00\",\n  \"file_hash\": \"6d9ffe1537487f9dc7cbeb8ac9e1975a09ea149d8d44fb89fe2b0a53210a52b0\",\n  \"result\": null,\n  \"error_msg\": null\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Job Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/jobs/{{job_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "jobs", "{{job_id}}"]
+        },
+        "description": "Get job status and result. Returns Retry-After header when processing."
+      },
+      "response": [
+        {
+          "name": "Completed",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/{{job_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "{{job_id}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"job_id\": \"cb010492-9e01-4718-b251-5f4fc703d018\",\n  \"status\": \"completed\",\n  \"created_at\": \"2026-04-30T08:42:07.039571+00:00\",\n  \"file_hash\": \"6d9ffe1537487f9dc7cbeb8ac9e1975a09ea149d8d44fb89fe2b0a53210a52b0\",\n  \"result\": {\n    \"markdown\": \"# Invoice\\n\\nN. fattura: 122789041\\n\\n| Item | Qty | Price |\\n|------|-----|-------|\\n| ESP32 | 3 | 15.81 |\\n| PSU | 3 | 18.09 |\\n| Box | 3 | 26.19 |\\n\\n**Total: 60.09 EUR**\"\n  },\n  \"error_msg\": null\n}"
+        },
+        {
+          "name": "Processing",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/{{job_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "{{job_id}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Retry-After",
+              "value": "2"
+            }
+          ],
+          "body": "{\n  \"job_id\": \"cb010492-9e01-4718-b251-5f4fc703d018\",\n  \"status\": \"processing\",\n  \"created_at\": \"2026-04-30T08:42:07.039571+00:00\",\n  \"file_hash\": null,\n  \"result\": null,\n  \"error_msg\": null\n}"
+        },
+        {
+          "name": "Failed",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/{{job_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "{{job_id}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"job_id\": \"cb010492-9e01-4718-b251-5f4fc703d018\",\n  \"status\": \"failed\",\n  \"created_at\": \"2026-04-30T08:42:07.039571+00:00\",\n  \"file_hash\": null,\n  \"result\": null,\n  \"error_msg\": \"OCR processing failed: model timeout\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "List Jobs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/jobs?limit=100",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "jobs"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "100",
+              "description": "Max jobs to return (default: 100)"
+            }
+          ]
+        },
+        "description": "List all jobs ordered by creation time (newest first)"
+      },
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs?limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n  {\n    \"job_id\": \"cb010492-9e01-4718-b251-5f4fc703d018\",\n    \"status\": \"completed\",\n    \"created_at\": \"2026-04-30T08:42:07.039571+00:00\",\n    \"file_hash\": \"6d9ffe1537487f9dc7cbeb8ac9e1975a09ea149d8d44fb89fe2b0a53210a52b0\",\n    \"result\": {\n      \"markdown\": \"# Invoice\\n\\nN. fattura: 122789041\"\n    },\n    \"error_msg\": null\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Metrics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/metrics",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "metrics"]
+        },
+        "description": "Get system metrics: queue depth, active jobs, avg inference time, memory usage"
+      },
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/metrics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "metrics"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"queue_depth\": 0,\n  \"active_jobs\": 1,\n  \"avg_inference_ms\": 12543.67,\n  \"system_memory_percent\": 42.5\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string",
+      "description": "Base URL for the GLM-OCR API"
+    },
+    {
+      "key": "job_id",
+      "value": "",
+      "type": "string",
+      "description": "Job ID returned by upload endpoints"
+    }
+  ]
+}

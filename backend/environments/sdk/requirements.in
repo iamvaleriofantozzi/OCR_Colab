@@ -1,0 +1,10 @@
+# GLM-OCR SDK + FastAPI Backend Environment
+glmocr[server,selfhosted] @ git+https://github.com/zai-org/GLM-OCR.git
+
+# Backend API dependencies
+fastapi
+uvicorn[standard]
+aiosqlite
+pydantic-settings
+python-multipart
+honcho
